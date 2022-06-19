@@ -38,13 +38,12 @@ public class ProductEntity {
     @Column(name = "url")
     private String url;
     @ManyToOne
-    @JoinColumn(name = "shopID")
+    @JoinColumn
     private ShopEntity shop;
-    @OneToOne(cascade = {CascadeType.ALL})
-    @PrimaryKeyJoinColumn
+    @OneToOne(mappedBy = "product")
     private ItemCartEntity itemcart;
     @ManyToOne
-    @JoinColumn(name = "categoryID")
+    @JoinColumn
     private CategoryEntity category;
 
     public ProductEntity() {

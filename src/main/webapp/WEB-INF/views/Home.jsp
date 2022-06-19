@@ -1,15 +1,16 @@
-<%@page import="service.ProductService"%>
-<%@page import="entity.Shop"%>
-<%@page import="entity.Product"%>
 
+
+<%@page import="com.mycompany.springwebshop.until.FormNumber"%>
+<%@page import="com.mycompany.springwebshop.until.FormString"%>
+<%@page import="com.mycompany.springwebshop.entity.ShopEntity"%>
+<%@page import="com.mycompany.springwebshop.entity.ProductEntity"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	ArrayList<Product> productList=new ArrayList<Product>();
-	ArrayList<Shop> shopList=new ArrayList<Shop>();
-	shopList=(ArrayList<Shop>) request.getAttribute("shopList");
+	List<ProductEntity> productList;
+	List<ShopEntity> shopList= (List<ShopEntity>) request.getAttribute("shopList");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,7 +52,7 @@
   </style>
 </head>
 <body>
-  <%@ include file="/Pages/MasterPage/Header.jsp" %>
+  <%--<%@ include file="/Pages/MasterPage/Header.jsp" %>--%>
     <div id="main-home">
         <div class="sw" style=" width: auto;">
             <form>
@@ -160,8 +161,10 @@
         </div>
         <%
 			if(shopList!=null)
-			for(Shop shop: shopList){
-				productList=ProductService.getProductsByShop(shop.getId(),"product");
+			for(ShopEntity shop: shopList){
+				productList=shop.getProductList();
+                                System.out.println(shop);
+
 		%>
 		  <script type="text/javascript">
            $(document).on('ready', function () {
@@ -183,32 +186,32 @@
             
         <div class="Products<%= " Shop"+shop.getId() %>" >
         <% if(productList!=null)
-			for(Product product: productList){
+			for(ProductEntity product: productList){
         %>
-                   <a class="Product" href="Trangchu/Product?id=<%=product.getId() %>&product=<%=product.getFewChar() %>&priceO=<%=Product.formMoney(product.getOriginalPrice()) %>&priceS=<%=Product.formMoney(product.getSalePrice()) %>&url=<%=product.getUrl()%>&shopID=<%=product.getShopID()%>">
+        <a class="Product" href="Trangchu/Product?id=<%=product.getId() %>&product=<%=FormString.getFewChar(product.getProduct()) %>&priceO=<%=FormNumber.formMoney(product.getOriginalPrice()) %>&priceS=<%=FormNumber.formMoney(product.getSalePrice()) %>&url=<%=product.getUrl()%>&shopID=<%=product.getId()%>">
                         <div>
                             <span class="sale<%if(product.getOriginalPrice().equals(product.getSalePrice())) out.print(" close"); %>"><% try{out.print(Math.round((1-Long.parseLong(product.getSalePrice())*1.0/Long.parseLong(product.getOriginalPrice()))*100.0));} catch (Exception e) {out.print(0);}%>%</span>
                             <img src="<%=product.getUrl() %>" alt="tainghe-airpod" style="max-width: 250px;">
                         </div>
                         <div class="content--product">
                             <div>
-                                <h4 style=" margin: 4px 6px;"><%=product.getFewChar() %></h4>
+                                <h4 style=" margin: 4px 6px;"><%=FormString.getFewChar(product.getProduct()) %></h4>
                             </div>
                             <div class="update--status">
                                 <div>
                                     <div class="_2OiIy8 _3UxTxH" style="font-size: 12px; margin-top: 8px;">Đã bán <%=product.getNumsold()%></div>
-                                    <div class="price" style="font-size: 16px;"><span class="_2SnSlL"><%=Product.formMoney(product.getSalePrice()) %></span><span class="_1KHyQl">₫</span></div>
+                                    <div class="price" style="font-size: 16px;"><span class="_2SnSlL"><%=FormNumber.formMoney(product.getSalePrice()) %></span><span class="_1KHyQl">₫</span></div>
                                 </div>
                                 <div>
                                 <%
-                                	if(accesser!=null && accesser.equals("user") && client!=null)
-                                		out.print(
-                                			"<form method='post'>"
-                                				+"<input style='display: none' name='clientID' value='"+client.getId()+"'>"
-                                            	+"<input style='display: none' name='productID' value='"+product.getId()+"'>"
-                                            	+"<button class='btn btn--buyticket js--btn--buyticket'>Buy Now<i class='fa fa-cart-plus' aria-hidden='true' style='margin-left: 5px;'></i></button>"
-                                            +"</form>");
-                                	else out.print("<button class='btn btn--buyticket js--btn--buyticket'>Buy Now<i class='fa fa-cart-plus' aria-hidden='true' style='margin-left: 5px;'></i></button>");
+//                                	if(accesser!=null && accesser.equals("user") && client!=null)
+//                                		out.print(
+//                                			"<form method='post'>"
+//                                				+"<input style='display: none' name='clientID' value='"+client.getId()+"'>"
+//                                            	+"<input style='display: none' name='productID' value='"+product.getId()+"'>"
+//                                            	+"<button class='btn btn--buyticket js--btn--buyticket'>Buy Now<i class='fa fa-cart-plus' aria-hidden='true' style='margin-left: 5px;'></i></button>"
+//                                            +"</form>");
+//                                	else out.print("<button class='btn btn--buyticket js--btn--buyticket'>Buy Now<i class='fa fa-cart-plus' aria-hidden='true' style='margin-left: 5px;'></i></button>");
                                 %>
 
                                 </div>
@@ -216,7 +219,7 @@
                         </div>
                     </a>
            
-           <%
+           <%   
            		}
            %>
          </div> 
@@ -228,7 +231,7 @@
        </div>
     </div>
  
-<%@ include file="/Pages/MasterPage/Footer.jsp" %>
+<%--<%@ include file="/Pages/MasterPage/Footer.jsp" %>--%>
 <script type="text/javascript" src="/WebShop/style/assets/js/js-pageHome.js"></script>
 </body>
 </html>

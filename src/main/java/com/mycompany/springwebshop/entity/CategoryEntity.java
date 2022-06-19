@@ -26,7 +26,7 @@ public class CategoryEntity {
     private long id;
     @Column(name = "nameCategory")
     private String nameCategory;
-    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category",fetch = FetchType.EAGER)
     private List<ProductEntity> productList;
 
     public long getId() {

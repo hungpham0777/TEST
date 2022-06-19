@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -44,13 +45,13 @@ public class ClientEntity {
     private String phone;
     @Column(name = "image")
     private String image;
-    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private List<ItemCartEntity> itemcartList;
-    @OneToOne(cascade = {CascadeType.ALL})
-    @PrimaryKeyJoinColumn
+
+    @OneToOne(mappedBy = "client")
     private PaymentEntity payment;
-    @OneToOne(cascade = {CascadeType.ALL})
-    @PrimaryKeyJoinColumn
+    
+    @OneToOne(mappedBy = "client")
     private CommentEntity comment;
     public ClientEntity() {
     }

@@ -4,6 +4,7 @@
  */
 package com.mycompany.springwebshop.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
 
 /**
  *
@@ -31,10 +34,11 @@ public class ItemCartEntity {
     private String feature;
 
     @ManyToOne
-    @JoinColumn(name="clientID")
+    @JoinColumn
     private ClientEntity client;
 
-    @OneToOne(mappedBy = "itemcart")
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn
     private ProductEntity product;
 
     public long getId() {

@@ -4,11 +4,14 @@
  */
 package com.mycompany.springwebshop.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -29,7 +32,8 @@ public class PaymentEntity {
     private String nameAccount;
     @Column(name = "status")
     private int status;
-    @OneToOne(mappedBy = "payment")
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn
     private ClientEntity client;
     private String money;
 

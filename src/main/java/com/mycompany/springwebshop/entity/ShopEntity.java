@@ -35,7 +35,7 @@ public class ShopEntity {
     private String numFollower;
     @Column(name = "urlAvatar")
     private String urlAvatar;
-    @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "shop", fetch = FetchType.EAGER)
     private List<ProductEntity> productList;
 
     public ShopEntity() {
@@ -97,4 +97,9 @@ public class ShopEntity {
         this.productList = productList;
     }
 
+    @Override
+    public String toString() {
+        return "ShopEntity{" + "id=" + id + ", user=" + user + ", pass=" + pass + ", nameShop=" + nameShop + ", numFollower=" + numFollower + ", urlAvatar=" + urlAvatar + ", productList="  + '}';
+    }
+    
 }

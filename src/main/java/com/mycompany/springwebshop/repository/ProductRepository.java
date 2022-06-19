@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @author Admin
  */
 @Repository
-public interface ProductRepository extends CrudRepository<ProductEntity, Integer>{
+public interface ProductRepository extends CrudRepository<ProductEntity, Long>{
     
 }

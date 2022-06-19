@@ -4,6 +4,7 @@
  */
 package com.mycompany.springwebshop.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,10 +29,11 @@ public class CommentEntity {
     private String comment;
     @Column(name="datetime")
     private String datetime;
-    @OneToOne(mappedBy = "comment")
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn
     private ClientEntity client;
     @ManyToOne
-    @JoinColumn(name="productID")
+    @JoinColumn
     private ProductEntity product;
 
     public long getId() {

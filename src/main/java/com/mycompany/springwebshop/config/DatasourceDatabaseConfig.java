@@ -16,6 +16,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.Properties;
 import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+
+
 
 /**
  *
@@ -24,12 +28,14 @@ import javax.sql.DataSource;
 @Configuration
 @EnableJpaRepositories(basePackages = "com.mycompany.springwebshop.repository")
 @EnableTransactionManagement
-public class SpringDatabaseConnector {
-    @Bean(destroyMethod = "close")
+
+public class DatasourceDatabaseConfig {
+
+    @Bean
     DataSource dataSource(){
         DriverManagerDataSource dataSource=new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/springNew?createDatabaseIfNotExist=true");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/springNew?createDatabaseIfNotExist=true&useSSL=false");
         dataSource.setUsername("root");
         dataSource.setPassword("hung28092003");
         return dataSource;
@@ -42,8 +48,10 @@ public class SpringDatabaseConnector {
         entityManager.setPackagesToScan("com.mycompany.springwebshop.entity");
         
         Properties jpaProperties=new Properties();
-        jpaProperties.setProperty("hibernate.dialect","org.hibernate.dialect.MySQL5Dialect");
-        jpaProperties.setProperty("hibernate.hbm2ddl.auto", "create");
+        jpaProperties.setProperty("hibernate.dialect","org.hibernate.dialect.MySQL5InnoDBDialect");
+        jpaProperties.setProperty("hibernate.hbm2ddl.auto", "update");
+        jpaProperties.setProperty("hibernate.show_sql", "true");
+        jpaProperties.setProperty("hibernate.format_sql", "true");
         entityManager.setJpaProperties(jpaProperties);
         return entityManager;
     }
